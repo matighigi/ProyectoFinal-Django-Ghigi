@@ -1,175 +1,139 @@
-# TuPrimeraPagina+GHIGI
+# Proyecto Final Python (Django) – Coderhouse
 
-## Tercera Pre-Entrega – Curso Python – Coderhouse
-
-Este proyecto corresponde a la tercera pre-entrega del curso Python de Coderhouse.  
-Es una aplicación web desarrollada con **Django**, siguiendo el patrón **MVT**.
-
-Incluye:
-
-- Herencia de plantillas HTML  
-- Tres modelos con formularios  
-- Un formulario de búsqueda en base de datos  
-- Proyecto completo y funcional  
-- Subido a GitHub como se solicita  
+Proyecto Final del curso de Python utilizando el framework Django.
+Aplicación web tipo blog con autenticación, perfiles, CRUD de páginas, mensajería interna y panel de administración.
 
 ---
 
-## 🛠 Tecnologías utilizadas
-
-- Python 3.10+
-- Django 6.0
-- HTML5
-- SQLite
-
----
-
-## 📁 Estructura del proyecto
-
-```text
-TuPrimeraPagina+GHIGI/
-│
-├── tuprimera_pagina/
-│   ├── settings.py
-│   ├── urls.py
-│   └── ...
-│
-├── blog/
-│   ├── models.py
-│   ├── forms.py
-│   ├── views.py
-│   ├── urls.py
-│   └── templates/
-│       └── blog/
-│           ├── base.html
-│           ├── inicio.html
-│           ├── crear_autor.html
-│           ├── crear_categoria.html
-│           ├── crear_post.html
-│           └── buscar_post.html
-│
-├── db.sqlite3
-└── README.md
-```
-
-## 🧱 Modelos incluidos
-
-### 🧍 Autor
-
-| Campo   | Tipo                |
-|---------|---------------------|
-| nombre  | CharField           |
-| apellido| CharField           |
-| email   | EmailField (único)  |
-| bio     | TextField (opcional)|
+## Tecnologías utilizadas
+- Python 3
+- Django
+- SQLite (solo en desarrollo local)
+- HTML y CSS
+- Bootstrap (opcional)
+- CKEditor (texto enriquecido)
 
 ---
 
-### 🗂️ Categoría
-
-| Campo       | Tipo                |
-|-------------|---------------------|
-| nombre      | CharField           |
-| descripcion | TextField (opcional)|
-
----
-
-### 📝 Post
-
-| Campo             | Tipo                          |
-|-------------------|-------------------------------|
-| titulo            | CharField                     |
-| contenido         | TextField                     |
-| fecha_publicacion | DateField (auto_now_add=True) |
-| autor             | ForeignKey a Autor            |
-| categoria         | ForeignKey a Categoría        |
-
----
-
-## 🧾 Formularios
-
-En `forms.py` se definieron formularios basados en **ModelForm**, que permiten crear registros desde la interfaz web:
-
-- `AutorForm`
-- `CategoriaForm`
-- `PostForm`
-
-Cada formulario incluye validación automática y se renderiza en los templates HTML.
-
----
-
-## 🔍 Búsqueda en la base de datos
-
-La aplicación incluye un formulario que permite buscar **posts por título**.
-
-La consulta se realiza usando coincidencias parciales:
-
-```python
-Post.objects.filter(titulo__icontains=termino)
-```
-
-Ruta del buscador:
-
-`/buscar/`
-
----
-
-## 🌐 Rutas principales
-
-| URL                 | Descripción        |
-|---------------------|--------------------|
-| `/`                 | Página de inicio   |
-| `/autor/nuevo/`     | Crear autor        |
-| `/categoria/nueva/` | Crear categoría    |
-| `/post/nuevo/`      | Crear post         |
-| `/buscar/`          | Buscar posts       |
-
----
-
-## ▶️ Cómo ejecutar el proyecto
+## Instalación y ejecución del proyecto
 
 ### 1. Clonar el repositorio
-
 ```bash
-git clone https://github.com/matighigi/TuPrimeraPagina+GHIGI.git
+git clone https://github.com/matighigi/ProyectoFinal-Django-Ghigi.git
+cd ProyectoFinal-Django-Ghigi
 ```
 
-### 2. Instalar Django
-
+### 2. Crear y activar entorno virtual
 ```bash
-pip install django
+python -m venv venv
 ```
 
-### 3. Aplicar migraciones
-
+Windows:
 ```bash
+venv\Scripts\activate
+```
+
+Mac / Linux:
+```bash
+source venv/bin/activate
+```
+
+### 3. Instalar dependencias
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Aplicar migraciones
+```bash
+python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 4. Ejecutar el servidor
+### 5. Crear superusuario
+```bash
+python manage.py createsuperuser
+```
 
+### 6. Ejecutar el servidor
 ```bash
 python manage.py runserver
 ```
 
-### 5. Abrir en el navegador
-
-```cpp
+Abrir en el navegador:
 http://127.0.0.1:8000/
-```
 
 ---
 
-## 🧪 Orden recomendado de prueba
+## Orden recomendado para probar la aplicación
 
-1. Crear un **Autor**
-2. Crear una **Categoría**
-3. Crear un **Post**
-4. Usar la página de **Buscar Post** para buscar por título
-5. Confirmar funcionamiento de formularios y búsquedas
+### 1. Home
+- `/` → Página principal
+
+### 2. About
+- `/about/` → Acerca de mí
+
+### 3. Autenticación (accounts)
+- `/accounts/signup/` → Registro de usuario
+- `/accounts/login/` → Login
+- `/accounts/logout/` → Logout
+
+### 4. Páginas (Blog)
+- `/pages/` → Listado de páginas  
+  Si no hay páginas creadas, se muestra el mensaje: "No hay páginas aún"
+- Desde el listado, botón "Leer más" al detalle
+- `/pages/<id>/` → Detalle
+- `/pages/create/` → Crear página (requiere login)
+- `/pages/<id>/update/` → Editar página (requiere login)
+- `/pages/<id>/delete/` → Eliminar página (requiere login)
+
+El modelo principal incluye:
+- Mínimo 2 campos CharField
+- 1 campo de texto enriquecido (CKEditor)
+- 1 imagen
+- 1 fecha
 
 ---
 
-## 👤 Autor
+### 5. Perfil de usuario
+- `/accounts/profile/` → Ver perfil
+- `/accounts/profile/edit/` → Editar perfil
+- `/accounts/password/` → Cambio de contraseña
 
-**Matias Ghigi**
+Datos del perfil:
+- Nombre
+- Apellido
+- Email
+- Avatar
+- Bio u otros campos adicionales
+
+---
+
+### 6. Mensajería
+Sistema de mensajería interna entre usuarios:
+- `/messenger/` → Bandeja de mensajes
+- `/messenger/new/` → Enviar mensaje
+- `/messenger/<id>/` → Ver mensaje
+
+---
+
+## Panel de administración
+- `/admin/`
+
+Desde el panel de admin se gestionan:
+- Usuarios
+- Perfiles
+- Páginas / Posts
+- Mensajes
+
+---
+
+## Video demostración (máx. 10 minutos)
+Link al video: (agregar link acá)
+
+---
+
+## Notas importantes
+- El archivo db.sqlite3 NO se sube al repositorio.
+- La carpeta media/ NO se sube al repositorio.
+- Ambos están ignorados mediante .gitignore.
+- Proyecto realizado como Entrega Final del curso de Python – Coderhouse.

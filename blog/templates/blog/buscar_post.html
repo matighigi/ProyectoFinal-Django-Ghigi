@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+
+{% block contenido %}
+<h2>Buscar Post</h2>
+
+<form method="get">
+    <label for="q">Título contiene:</label>
+    <input type="text" id="q" name="q" value="{{ termino|default:'' }}">
+    <button type="submit">Buscar</button>
+</form>
+
+{% if termino %}
+    <h3>Resultados para "{{ termino }}":</h3>
+
+    {% if resultados %}
+        <ul>
+            {% for post in resultados %}
+                <li>
+                    <strong>{{ post.titulo }}</strong> -
+                    {{ post.autor }} ({{ post.categoria }}) - {{ post.fecha_publicacion }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se encontraron resultados.</p>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

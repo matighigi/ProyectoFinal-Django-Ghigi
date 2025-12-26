@@ -4,20 +4,46 @@
 
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-md-6 col-lg-5">
+  <div class="col-md-7 col-lg-6">
     <div class="card shadow-sm">
       <div class="card-body">
         <h1 class="h4 mb-3">Crear cuenta</h1>
 
+        {# Errores generales del formulario (no asociados a un campo específico) #}
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
         <form method="post" novalidate>
           {% csrf_token %}
-          {{ form.as_p }}
+
+          {# Render manual para que SIEMPRE veas errores por campo #}
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+
+              {% if field.help_text %}
+                <div class="form-text">{{ field.help_text }}</div>
+              {% endif %}
+
+              {% if field.errors %}
+                <div class="text-danger small">
+                  {{ field.errors }}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+
           <button class="btn btn-dark w-100" type="submit">Registrarme</button>
         </form>
 
         <hr class="my-3">
         <p class="mb-0 small">
-          ¿Ya tenés cuenta? (A COMPLETAR LINK)
+          ¿Ya tenés cuenta?
+          <a href="{% url 'login' %}">Entrar</a>
         </p>
       </div>
     </div>

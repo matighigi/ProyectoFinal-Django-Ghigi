@@ -24,17 +24,25 @@
           <li class="nav-item">
             <span class="navbar-text me-2">Hola, {{ user.username }}</span>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="/accounts/logout/">Salir</a>
+            {# Django 6: logout recomendado por POST #}
+            <form method="post" action="{% url 'logout' %}" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-link nav-link" style="display:inline; padding:0;">
+                Salir
+              </button>
+            </form>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="/accounts/login/">Entrar</a>
+            <a class="nav-link" href="{% url 'login' %}">Entrar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/accounts/signup/">Registrarme</a>
+            <a class="nav-link" href="{% url 'signup' %}">Registrarme</a>
           </li>
         {% endif %}
+
       </ul>
     </div>
   </div>

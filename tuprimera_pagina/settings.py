@@ -128,3 +128,7 @@ LOGIN_URL = "/accounts/login/"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+SILENCED_SYSTEM_CHECKS = [
+    "ckeditor.W001",
+]

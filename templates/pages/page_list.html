@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Pages{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Pages</h1>
+
+ 
+{% comment %}
+Si hay objetos, los listamos.
+Si no hay, mostramos mensaje.
+{% endcomment %}
+
+
+{% if pages %}
+  <div class="list-group">
+    {% for page in pages %}
+      <div class="list-group-item">
+        <h5>{{ page.title }}</h5>
+        <p class="text-muted">{{ page.subtitle }}</p>
+
+        <a href="{% url 'pages_detail' page.pk %}" class="btn btn-sm btn-dark">
+          Leer más
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-warning">
+    No hay páginas aún.
+  </div>
+{% endif %}
+{% endblock %}

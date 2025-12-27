@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
     'blog',
     'accounts',
+    'pages',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,6 @@ STATIC_URL = 'static/'
 LOGIN_REDIRECT_URL = "/"          # Después de loguearse
 LOGOUT_REDIRECT_URL = "/"         # Después de desloguearse
 LOGIN_URL = "/accounts/login/"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

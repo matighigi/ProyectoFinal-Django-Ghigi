@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.contrib.auth.decorators import login_required
 
 
 class SignUpForm(UserCreationForm):
@@ -33,3 +34,23 @@ CBV para registrar usuarios.
     - GET: muestra el formulario
     - POST: valida y guarda el usuario
 """
+
+# Muestra el perfil del usuario logueado.
+@login_required
+def profile_view(request):
+    return render(request, "accounts/profile.html")
+
+# Permite editar el perfil del usuario logueado.
+@login_required
+def profile_edit(request):
+    profile = request.user.profile
+
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect("profile")
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, "accounts/profile_edit.html", {"form": form})

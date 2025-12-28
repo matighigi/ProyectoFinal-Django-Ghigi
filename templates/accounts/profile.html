@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Perfil{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Mi Perfil</h1>
+
+<a class="btn btn-outline-dark mb-3" href="{% url 'profile_edit' %}">
+  Editar perfil
+</a>
+
+<div class="card card-body">
+  <p><strong>Usuario:</strong> {{ user.username }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+
+  <p><strong>Nombre:</strong> {{ user.profile.first_name|default:"(sin nombre)" }}</p>
+  <p><strong>Apellido:</strong> {{ user.profile.last_name|default:"(sin apellido)" }}</p>
+
+  <p><strong>Bio:</strong> {{ user.profile.bio|default:"(sin bio)" }}</p>
+
+  <p><strong>Se unió:</strong> {{ user.date_joined }}</p>
+
+  {% if user.profile.avatar %}
+    <div class="mt-3">
+      <img src="{{ user.profile.avatar.url }}" alt="Avatar" style="max-width: 200px;" class="img-fluid rounded">
+    </div>
+  {% else %}
+    <p class="text-muted mt-3">(sin avatar)</p>
+  {% endif %}
+</div>
+{% endblock %}

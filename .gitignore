@@ -1,19 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Virtual env
+.venv/
+venv/
+env/
+
 # Django
 db.sqlite3
 *.sqlite3
 media/
 
-# Python
-__pycache__/
-*.py[cod]
+# Static (si después generás)
+staticfiles/
 
-# Entornos virtuales
-venv/
-.venv/
-.env
-
-# IDE / sistema
+# VS Code
 .vscode/
-.idea/
+
+# OS
 .DS_Store
 Thumbs.db

@@ -73,7 +73,7 @@ Proyecto realizado como **Entrega Final** del curso de Python en Coderhouse.
 
 ### 1) Clonar el repositorio
 ```bash
-git clone <URL_DEL_REPO>
+git clone "https://github.com/matighigi/ProyectoFinal-Django-Ghigi"
 cd ProyectoFinal-Django-Ghigi
 ```
 
@@ -123,7 +123,7 @@ http://127.0.0.1:8000/
 
 ## 🎥 Video demostración
 
-El proyecto incluye un video de hasta **10 minutos** mostrando:
+El proyecto incluye un video demostación mostrando:
 - Registro y login
 - Perfil de usuario
 - CRUD de páginas

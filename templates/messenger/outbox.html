@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Enviados{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Enviados</h1>
+
+<a class="btn btn-outline-secondary mb-3" href="{% url 'inbox' %}">Volver a Inbox</a>
+
+{% if sent_messages %}
+  <div class="list-group">
+    {% for m in sent_messages %}
+      <a class="list-group-item list-group-item-action" href="{% url 'message_detail' m.pk %}">
+        <strong>Para:</strong> {{ m.recipient.username }}
+        {% if m.subject %}
+          — {{ m.subject }}
+        {% else %}
+          — (sin asunto)
+        {% endif %}
+        <span class="text-muted">({{ m.created_at }})</span>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-warning">No enviaste mensajes aún.</div>
+{% endif %}
+{% endblock %}

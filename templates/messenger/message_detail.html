@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Mensaje{% endblock %}
+
+{% block content %}
+<a class="btn btn-outline-secondary mb-3" href="{% url 'inbox' %}">← Volver</a>
+
+<h1>Mensaje</h1>
+
+<p><strong>De:</strong> {{ msg.sender.username }}</p>
+<p><strong>Para:</strong> {{ msg.recipient.username }}</p>
+<p><strong>Fecha:</strong> {{ msg.created_at }}</p>
+
+<p><strong>Asunto:</strong>
+  {% if msg.subject %}{{ msg.subject }}{% else %}(sin asunto){% endif %}
+</p>
+
+<hr>
+
+<p style="white-space: pre-wrap;">{{ msg.body }}</p>
+
+{% endblock %}

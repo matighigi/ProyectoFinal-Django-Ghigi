@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Inbox{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Inbox</h1>
+
+<a class="btn btn-dark mb-3" href="{% url 'send_message' %}">+ Enviar mensaje</a>
+<a class="btn btn-outline-secondary mb-3" href="{% url 'outbox' %}">Ver enviados</a>
+
+{% if inbox_messages %}
+  <div class="list-group">
+    {% for m in inbox_messages %}
+      <a class="list-group-item list-group-item-action" href="{% url 'message_detail' m.pk %}">
+        {% if not m.is_read %}
+          <strong>[NUEVO]</strong>
+        {% endif %}
+        <strong>De:</strong> {{ m.sender.username }}
+        {% if m.subject %}
+          — {{ m.subject }}
+        {% else %}
+          — (sin asunto)
+        {% endif %}
+        <span class="text-muted">({{ m.created_at }})</span>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-warning">No tenés mensajes recibidos aún.</div>
+{% endif %}
+{% endblock %}

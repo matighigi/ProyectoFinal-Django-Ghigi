@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'blog',
     'accounts.apps.AccountsConfig',
     'pages',
+    'messenger',
 ]
 
 MIDDLEWARE = [

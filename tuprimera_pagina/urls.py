@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('blog.urls')),
     path('accounts/', include('accounts.urls')),
     path('pages/', include('pages.urls')),
+    path("messages/", include("messenger.urls")),
 ]
 
 if settings.DEBUG:

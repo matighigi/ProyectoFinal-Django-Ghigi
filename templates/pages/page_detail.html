@@ -1,35 +1,38 @@
 {% extends "base.html" %}
 
-{% block title %}{{ page.title }}{% endblock %}
+{% block title %}{{ object.title }} · PyBlog{% endblock %}
 
 {% block content %}
-<a href="{% url 'pages_list' %}" class="btn btn-sm btn-outline-secondary mb-3">
-  ← Volver al listado
+<a class="btn btn-outline-secondary mb-3" href="{% url 'pages_list' %}">
+  ← Volver a Páginas
 </a>
 
-<h1>{{ page.title }}</h1>
-<p class="text-muted">{{ page.subtitle }}</p>
+<div class="card shadow-sm">
+  {% if object.image %}
+    <img src="{{ object.image.url }}" class="card-img-top" alt="{{ object.title }}" style="max-height: 360px; object-fit: cover;">
+  {% endif %}
 
-{% if user.is_authenticated %}
-  <div class="mb-3">
-    <a class="btn btn-sm btn-outline-dark" href="{% url 'pages_update' page.pk %}">
-      Editar
-    </a>
-    <a class="btn btn-sm btn-outline-danger" href="{% url 'pages_delete' page.pk %}">
-      Eliminar
-    </a>
+  <div class="card-body">
+    <h1 class="h3">{{ object.title }}</h1>
+
+    <p class="text-muted small mb-4">
+      Publicado: {{ object.created_at|date:"d/m/Y H:i" }}
+    </p>
+
+    <div style="white-space: pre-wrap;">
+      {# Si tu campo es CKEditor, puede venir como HTML: en ese caso usá |safe #}
+      {% if object.content %}
+        {{ object.content|safe }}
+      {% endif %}
+    </div>
+
+    {% if user.is_authenticated %}
+      <hr>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-dark" href="{% url 'pages_update' object.pk %}">Editar</a>
+        <a class="btn btn-outline-danger" href="{% url 'pages_delete' object.pk %}">Eliminar</a>
+      </div>
+    {% endif %}
   </div>
-{% endif %}
-
-<p class="small text-muted">
-  Creado: {{ page.created_at }}
-</p>
-
-{% if page.image %}
-  <img src="{{ page.image.url }}" alt="{{ page.title }}" class="img-fluid rounded mb-3">
-{% endif %}
-
-<div>
-  {{ page.content|safe }}
 </div>
 {% endblock %}

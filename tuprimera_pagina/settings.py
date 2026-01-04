@@ -123,6 +123,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 LOGIN_REDIRECT_URL = "/"          # Después de loguearse
 LOGOUT_REDIRECT_URL = "/"         # Después de desloguearse

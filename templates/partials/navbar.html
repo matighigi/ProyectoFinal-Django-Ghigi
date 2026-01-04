@@ -1,7 +1,14 @@
 {# templates/partials/navbar.html #}
+{% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand fw-bold" href="/">Mi Blog</a>
+    <!-- Marca: logo + nombre (click = inicio) -->
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="{% url 'inicio' %}">
+      <img src="{% static 'img/pyblog.svg' %}" alt="" height="36" class="d-inline-block">
+      <span>PyBlog</span>
+    </a>
+
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
       <span class="navbar-toggler-icon"></span>
@@ -9,27 +16,31 @@
 
     <div class="collapse navbar-collapse" id="navMain">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {# Rutas obligatorias por consigna #}
         <li class="nav-item">
-          <a class="nav-link" href="/about/">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/pages/">Pages</a>
+          <a class="nav-link" href="{% url 'pages_list' %}">Páginas</a>
         </li>
       </ul>
 
-      <ul class="navbar-nav ms-auto">
-        {# Esto lo dejamos listo para cuando implementemos accounts #}
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <span class="navbar-text me-2">Hola, {{ user.username }}</span>
+            <span class="navbar-text text-white-50">
+              Hola, {{ user.username }}
+            </span>
           </li>
 
           <li class="nav-item">
-            {# Django 6: logout recomendado por POST #}
-            <form method="post" action="{% url 'logout' %}" class="d-inline">
+            <a class="nav-link" href="{% url 'profile' %}">Mi perfil</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inbox' %}">Mensajes</a>
+          </li>
+
+          <li class="nav-item">
+            <form method="post" action="{% url 'logout' %}">
               {% csrf_token %}
-              <button type="submit" class="btn btn-link nav-link" style="display:inline; padding:0;">
+              <button type="submit" class="btn btn-outline-light btn-sm">
                 Salir
               </button>
             </form>
@@ -39,22 +50,11 @@
             <a class="nav-link" href="{% url 'login' %}">Entrar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'signup' %}">Registrarme</a>
+            <a class="btn btn-outline-light btn-sm" href="{% url 'signup' %}">
+              Registrarme
+            </a>
           </li>
         {% endif %}
-
-        {% if user.is_authenticated %}
-          <li class="nav-item">
-          <a class="nav-link" href="{% url 'profile' %}">Mi Perfil</a>
-          </li>
-        {% endif %}
-
-        {% if user.is_authenticated %}
-          <li class="nav-item">
-          <a class="nav-link" href="{% url 'inbox' %}">Mensajes</a>
-          </li>
-        {% endif %}
-
       </ul>
     </div>
   </div>

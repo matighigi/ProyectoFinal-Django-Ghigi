@@ -65,3 +65,7 @@ def buscar_post(request):
         "termino": termino,
         "resultados": resultados,
     })
+
+# Vista para la página "Acerca de"
+def about(request):
+    return render(request, "blog/about.html")

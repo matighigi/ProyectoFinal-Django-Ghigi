@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,19 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('pages/', include('pages.urls')),
     path("messages/", include("messenger.urls")),
+    path("accounts/password/change/",
+        auth_views.PasswordChangeView.as_view(
+            template_name="accounts/password_change.html"
+        ),
+        name="password_change",
+    ),
+    path(
+        "accounts/password/change/done/",
+        auth_views.PasswordChangeDoneView.as_view(
+            template_name="accounts/password_change_done.html"
+        ),
+        name="password_change_done",
+    ),
 ]
 
 if settings.DEBUG:

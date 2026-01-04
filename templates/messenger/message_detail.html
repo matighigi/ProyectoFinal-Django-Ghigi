@@ -1,21 +1,30 @@
 {% extends "base.html" %}
-{% block title %}Mensaje{% endblock %}
+{% block title %}Mensaje · PyBlog{% endblock %}
 
 {% block content %}
-<a class="btn btn-outline-secondary mb-3" href="{% url 'inbox' %}">← Volver</a>
+<a href="{% url 'inbox' %}" class="btn btn-outline-secondary mb-3">
+  ← Volver a mensajes
+</a>
 
-<h1>Mensaje</h1>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">
+      {% if msg.subject %}
+        {{ msg.subject }}
+      {% else %}
+        (Sin asunto)
+      {% endif %}
+    </h5>
 
-<p><strong>De:</strong> {{ msg.sender.username }}</p>
-<p><strong>Para:</strong> {{ msg.recipient.username }}</p>
-<p><strong>Fecha:</strong> {{ msg.created_at }}</p>
+    <p class="small text-muted mb-3">
+      De <strong>@{{ msg.sender.username }}</strong>
+      para <strong>@{{ msg.recipient.username }}</strong>
+      · {{ msg.created_at|date:"d/m/Y H:i" }}
+    </p>
 
-<p><strong>Asunto:</strong>
-  {% if msg.subject %}{{ msg.subject }}{% else %}(sin asunto){% endif %}
-</p>
-
-<hr>
-
-<p style="white-space: pre-wrap;">{{ msg.body }}</p>
-
+    <div class="border-top pt-3" style="white-space: pre-wrap;">
+      {{ msg.body }}
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import Message
+from core.forms import bootstrapify_form 
 
 
 class MessageForm(forms.ModelForm):
@@ -19,7 +20,23 @@ class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = ["recipient", "subject", "body"]
-        widgets = {
-            "subject": forms.TextInput(attrs={"placeholder": "Asunto (opcional)"}),
-            "body": forms.Textarea(attrs={"rows": 5, "placeholder": "Escribí tu mensaje..."}),
+        
+        labels = {
+            "recipient": "Destinatario",
+            "subject": "Asunto",
+            "body": "Mensaje",
         }
+
+        help_texts = {
+            "recipient": "Seleccioná el usuario al que querés enviarle el mensaje",
+            "subject": "Asunto del mensaje (opcional)",
+            "body": "Escribí tu mensaje acá",
+        }
+
+        widgets = {
+            "body": forms.Textarea(attrs={"rows": 6}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        bootstrapify_form(self)

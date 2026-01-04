@@ -1,7 +1,8 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Page
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .forms import PageForm
 
 #Lista de páginas: /pages/
 class PageListView(ListView):
@@ -23,21 +24,31 @@ class PageCreateView(LoginRequiredMixin, CreateView):
     - CreateView: Django se encarga del formulario y guardado
     """
     model = Page
+    form_class = PageForm
     template_name = "pages/page_form.html"
-    fields = ["title", "subtitle", "content", "image"]
     success_url = reverse_lazy("pages_list")
     login_url = reverse_lazy("login")
+
+    def form_valid(self, form):
+        # setea autor automáticamente
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 # Editar una página existente: /pages/<id>/edit/
-class PageUpdateView(LoginRequiredMixin, UpdateView):
+class PageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Page
+    form_class = PageForm
     template_name = "pages/page_form.html"
-    fields = ["title", "subtitle", "content", "image"]
     success_url = reverse_lazy("pages_list")
     login_url = reverse_lazy("login")
 
+    # Verifica que el usuario sea el autor de la página
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+
 # Eliminar una página: /pages/<id>/delete/
-class PageDeleteView(LoginRequiredMixin, DeleteView):
+class PageDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """
     Muestra una pantalla de confirmación.
     """
@@ -45,3 +56,7 @@ class PageDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "pages/page_confirm_delete.html"
     success_url = reverse_lazy("pages_list")
     login_url = reverse_lazy("login")
+    # Verifica que el usuario sea el autor de la página
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user

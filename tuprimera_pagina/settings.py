@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "django.middleware.locale.LocaleMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -109,11 +110,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ar'
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
@@ -135,3 +138,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 SILENCED_SYSTEM_CHECKS = [
     "ckeditor.W001",
 ]
+
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "Custom",
+        "height": 300,
+        "toolbar_Custom": [
+            ["Bold", "Italic", "Underline"],
+            ["TextColor", "BGColor"],
+            ["Font", "FontSize"],
+            ["NumberedList", "BulletedList"],
+            ["JustifyLeft", "JustifyCenter", "JustifyRight"],
+            ["Link", "Unlink"],
+            ["RemoveFormat"],
+            ["Source"],
+        ],
+        "font_names": (
+            "Arial/Arial, Helvetica, sans-serif;"
+            "Courier New/Courier New, Courier, monospace;"
+            "Georgia/Georgia, serif;"
+            "Times New Roman/Times New Roman, Times, serif;"
+            "Verdana/Verdana, Geneva, sans-serif"
+        ),
+        "fontSize_sizes": "12/12px;14/14px;16/16px;18/18px;24/24px;32/32px",
+    }
+}

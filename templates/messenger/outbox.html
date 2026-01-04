@@ -1,26 +1,42 @@
 {% extends "base.html" %}
-{% block title %}Enviados{% endblock %}
+{% block title %}Enviados · PyBlog{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Enviados</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">Enviados</h1>
 
-<a class="btn btn-outline-secondary mb-3" href="{% url 'inbox' %}">Volver a Inbox</a>
+  <a href="{% url 'send_message' %}" class="btn btn-outline-dark">
+    + Nuevo mensaje
+  </a>
+</div>
 
 {% if sent_messages %}
-  <div class="list-group">
+  <div class="list-group shadow-sm">
     {% for m in sent_messages %}
-      <a class="list-group-item list-group-item-action" href="{% url 'message_detail' m.pk %}">
-        <strong>Para:</strong> {{ m.recipient.username }}
-        {% if m.subject %}
-          — {{ m.subject }}
-        {% else %}
-          — (sin asunto)
-        {% endif %}
-        <span class="text-muted">({{ m.created_at }})</span>
+      <a href="{% url 'message_detail' m.pk %}"
+         class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+
+        <div>
+          <div>
+            Para <strong>@{{ m.recipient.username }}</strong>
+            {% if m.subject %}
+              — {{ m.subject }}
+            {% endif %}
+          </div>
+          <div class="small text-muted">
+            {{ m.created_at|date:"d/m/Y H:i" }}
+          </div>
+        </div>
       </a>
     {% endfor %}
   </div>
 {% else %}
-  <div class="alert alert-warning">No enviaste mensajes aún.</div>
+  <div class="alert alert-warning">
+    No enviaste mensajes aún.
+  </div>
 {% endif %}
+
+<a href="{% url 'inbox' %}" class="btn btn-link mt-3">
+  ← Volver a mensajes
+</a>
 {% endblock %}

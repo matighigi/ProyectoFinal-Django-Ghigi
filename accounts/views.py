@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm
+from .models import Profile
 
 
 class SignUpForm(UserCreationForm):
@@ -39,12 +40,20 @@ CBV para registrar usuarios.
 # Muestra el perfil del usuario logueado.
 @login_required
 def profile_view(request):
-    return render(request, "accounts/profile.html")
+    """
+    Muestra el perfil del usuario logueado.
+    Si no existe, lo crea automáticamente.
+    """
+    profile, _ = Profile.objects.get_or_create(user=request.user)
+    return render(request, "accounts/profile.html", {"profile": profile})
 
 # Permite editar el perfil del usuario logueado.
 @login_required
 def profile_edit(request):
-    profile = request.user.profile
+    """
+    Permite editar el perfil del usuario logueado.
+    """
+    profile, _ = Profile.objects.get_or_create(user=request.user)
 
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=profile)
@@ -54,4 +63,4 @@ def profile_edit(request):
     else:
         form = ProfileForm(instance=profile)
 
-    return render(request, "accounts/profile_edit.html", {"form": form})
+    return render(request, "accounts/profile_edit.html", {"form": form, "profile": profile})

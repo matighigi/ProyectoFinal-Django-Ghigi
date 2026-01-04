@@ -1,12 +1,19 @@
 {% extends "base.html" %}
+{% block extra_css %}
+  {{ form.media.css }}
+{% endblock %}
+
+{% block extra_js %}
+  {{ form.media.js }}
+{% endblock %}
 
 {% block title %}
-  {% if form.instance.pk %}Editar Page{% else %}Crear Page{% endif %}
+  {% if form.instance.pk %}Editar Pagina{% else %}Crear Page{% endif %}
 {% endblock %}
 
 {% block content %}
 <h1 class="mb-4">
-  {% if form.instance.pk %}Editar Page{% else %}Crear Page{% endif %}
+  {% if form.instance.pk %}Editar Pagina{% else %}Crear Page{% endif %}
 </h1>
 
 {% comment %}

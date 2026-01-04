@@ -1,30 +1,46 @@
 {% extends "base.html" %}
-{% block title %}Inbox{% endblock %}
+{% block title %}Mensajes · PyBlog{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Inbox</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="mb-0">Mensajes</h1>
 
-<a class="btn btn-dark mb-3" href="{% url 'send_message' %}">+ Enviar mensaje</a>
-<a class="btn btn-outline-secondary mb-3" href="{% url 'outbox' %}">Ver enviados</a>
+  <a href="{% url 'send_message' %}" class="btn btn-dark">
+    + Nuevo mensaje
+  </a>
+</div>
 
 {% if inbox_messages %}
-  <div class="list-group">
+  <div class="list-group shadow-sm">
     {% for m in inbox_messages %}
-      <a class="list-group-item list-group-item-action" href="{% url 'message_detail' m.pk %}">
+      <a href="{% url 'message_detail' m.pk %}"
+         class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if not m.is_read %}fw-semibold{% endif %}">
+        
+        <div>
+          <div>
+            <strong>@{{ m.sender.username }}</strong>
+            {% if m.subject %}
+              — {{ m.subject }}
+            {% endif %}
+          </div>
+          <div class="small text-muted">
+            {{ m.created_at|date:"d/m/Y H:i" }}
+          </div>
+        </div>
+
         {% if not m.is_read %}
-          <strong>[NUEVO]</strong>
+          <span class="badge bg-primary rounded-pill">Nuevo</span>
         {% endif %}
-        <strong>De:</strong> {{ m.sender.username }}
-        {% if m.subject %}
-          — {{ m.subject }}
-        {% else %}
-          — (sin asunto)
-        {% endif %}
-        <span class="text-muted">({{ m.created_at }})</span>
       </a>
     {% endfor %}
   </div>
 {% else %}
-  <div class="alert alert-warning">No tenés mensajes recibidos aún.</div>
+  <div class="alert alert-warning">
+    No tenés mensajes aún.
+  </div>
 {% endif %}
+
+<a href="{% url 'outbox' %}" class="btn btn-link mt-3">
+  Ver enviados →
+</a>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.contrib.auth.models import User
 
 
 class Page(models.Model):
@@ -15,6 +16,7 @@ class Page(models.Model):
     content = RichTextField()  # texto enriquecido
     image = models.ImageField(upload_to="pages/", blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name="pages",)
 
     def __str__(self) -> str:
         return self.title

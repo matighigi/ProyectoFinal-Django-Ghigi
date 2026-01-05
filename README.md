@@ -166,6 +166,8 @@ http://127.0.0.1:8000/
 
 ## 🎥 Video de demostración (máx. 10 min)
 
+https://www.youtube.com/watch?v=l7nID0cvr84
+
 El video muestra:
 - Registro y login
 - Perfil (ver/editar, avatar y bio)
